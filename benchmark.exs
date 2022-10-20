@@ -2,6 +2,12 @@
 :ets.new(:boom, [:set, :public, :named_table])
 in_memory = %{ "boom" => 1}
 
+:ets.insert(:boom, {1, 1})
+|> IO.inspect
+
+Redix.command(conn, ["SET", "1", "1"])
+|> IO.inspect
+
 Benchee.run(%{
   #"ets.insert" => fn -> :ets.insert(:boom, {1, 1}) end,
   #"redis.set" => fn -> Redix.command(conn, ["SET", "1", "1"]) end,
